@@ -7,7 +7,9 @@ This repository accompanies the paper "The QR decomposition for radial neural ne
 ### The representation class
 
 We create a class for representations of the neural quiver:
+
 <img src="neural-quiver.png" alt="drawing" width="500"/>
+
 with L + 1 vertices in the top row and a 'bias vertex' at the bottom. We only consider dimension vectors whose value at the bias vertex is equal to 1.  
 
 -- The QR decomposition of the representation W, that is, W = QR + U
