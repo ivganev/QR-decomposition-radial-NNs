@@ -81,7 +81,7 @@ model_trained = training_loop_proj_GD(
 #################################
 
 print(" ")
-print("Training the reducdd model with ordinary GD:")
+print("Training the reduced model with ordinary GD:")
 
 model_red_trained = training_loop(
     n_epochs = 3000, 
