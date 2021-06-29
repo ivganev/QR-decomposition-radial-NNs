@@ -6,6 +6,21 @@ This repository accompanies the paper "The QR decomposition for radial neural ne
 
 ### The representation class
 
+We create a class for representations of the neural quiver:
+<img src="neural-quiver.png" alt="drawing" width="500"/>
+with L + 1 vertices in the top row and a 'bias vertex' at the bottom. We only consider dimension vectors whose value at the bias vertex is equal to 1.  
+
+-- The QR decomposition of the representation W, that is, W = QR + U
+
+-- The reduced representation ('R' from the QR decomposition)
+
+-- The transformed representation Q^{-1}W.
+
+
+## The file source.py
+
+### The representation class
+
 In the file source.py, we create a class $\texttt{representation}$ for representations of the neural quiver <img src="https://render.githubusercontent.com/render/math?math=\mathscr{Q}_L">, which is the following quiver:
 <img src="neural-quiver.png" alt="drawing" width="500"/>
 with $L + 1$ vertices in the top row and a 'bias vertex' at the bottom. We only consider dimension vectors whose value at the bias vertex is equal to $1$, so a dimension vector for $\mathscr{Q}_L$ refers to a tuple $\mathbf{n} = (n_0, n_1, \dots, n_L)$. For any such dimension vector, the vector space of representations of the neural quiver $\mathscr{Q}_L$ can be identified with a direct sum of matrix spaces:
