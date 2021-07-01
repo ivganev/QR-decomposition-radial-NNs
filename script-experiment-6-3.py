@@ -71,7 +71,7 @@ def run_experiments(args):
         params = list(radnet.parameters()),
         x_train = x_med,
         y_train = y_med,
-        stopping_value=0.01,
+        stopping_value=args.target,
         verbose=args.verbose)
 
     toc = time.time()
@@ -98,7 +98,7 @@ def run_experiments(args):
         params = list(radnet_red.parameters()),
         x_train = x_med,
         y_train = y_med,
-        stopping_value=0.01,
+        stopping_value=args.target,
         verbose = args.verbose)
 
     toc = time.time()
@@ -115,6 +115,8 @@ def main():
                     default=10)
     parser.add_argument('--epochs', '-e', type=int, help='number of epochs',
                     default=5000)
+    parser.add_argument('--target', '-t', type=float, help='target loss for stopping',
+                    default=0.01)
     parser.add_argument('--verbose', '-v', action='store_true',
                     help='print each output', default=False)
     args = parser.parse_args()
@@ -130,9 +132,9 @@ def main():
     elapsed = torch.tensor(elapsed)
     elapsed_red = torch.tensor(elapsed_red)
 
-    print("Experiment 6.3.  {0} Trials".format(args.trials))
-    print("Full Model Training Time = {0:.3e} +/- {1:.3e}".format(torch.mean(elapsed),torch.std(elapsed)))
-    print("Reduced Model Training Time = {0:.3e} +/- {1:.3e}".format(torch.mean(elapsed_red),torch.std(elapsed_red)))
+    print("Experiment 6.3.  {0} Trials.  Target Loss: {1}".format(args.trials, args.target))
+    print("Full Model Training Time = {0:.3e} +/- {1:.3e} seconds".format(torch.mean(elapsed),torch.std(elapsed)))
+    print("Reduced Model Training Time = {0:.3e} +/- {1:.3e} seconds".format(torch.mean(elapsed_red),torch.std(elapsed_red)))
     print("Full model takes {0:.3e} +/- {1:.3e} times longer to train".format(torch.mean(elapsed/elapsed_red),torch.std(elapsed/elapsed_red)))
 
 
