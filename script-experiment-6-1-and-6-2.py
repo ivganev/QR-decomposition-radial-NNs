@@ -59,12 +59,12 @@ def run_experiments(args):
     radnet_trans = radnet.transformed_network()
     radnet_red = radnet.reduced_network()
 
-
     #################################
     ## Check that the reduced and  original network
     ## have the same loss function on the synthetic data set. 
     #################################
 
+    avg_diff_untrained_neural_function = torch.mean(torch.abs(radnet(x_synth) - radnet_red(x_synth)))
     assert all([all(radnet(x_synth) - radnet_red(x_synth) < 0.0001), \
     (loss_fn(radnet(x_synth), y_synth) - loss_fn(radnet_red(x_synth), y_synth) < 0.0001).item()]), \
     "Loss functions do not match"
@@ -105,7 +105,7 @@ def run_experiments(args):
         y_train = y_synth,
         verbose=args.verbose)
 
-    return model_losses, model_red_losses
+    return model_losses, model_red_losses, avg_diff_untrained_neural_function
 
 
 def main():
@@ -118,25 +118,20 @@ def main():
                     help='print each output', default=False)
     args = parser.parse_args()
 
-    untrained_loss_model = []
+    error_6_1 = []
     trained_loss_model = []
-    untrained_loss_red_model = []
     trained_loss_red_model = []
     print(f"Running Experiments 6.1 and 6.2 for {args.trials} trials.")
     for trial in tqdm(range(args.trials)):
-        model_losses, model_red_losses = run_experiments(args)
-        untrained_loss_model.append(model_losses[0])
+        model_losses, model_red_losses, avg_diff_untrained_neural_function = run_experiments(args)
         trained_loss_model.append(model_losses[-1])
-        untrained_loss_red_model.append(model_red_losses[0])
         trained_loss_red_model.append(model_red_losses[-1])
-
-    untrained_loss_model = torch.tensor(untrained_loss_model)
+        error_6_1.append(avg_diff_untrained_neural_function)
     trained_loss_model = torch.tensor(trained_loss_model)
-    untrained_loss_red_model = torch.tensor(untrained_loss_red_model)
     trained_loss_red_model = torch.tensor(trained_loss_red_model)
+    error_6_2 = torch.abs(trained_loss_model - trained_loss_red_model) 
+    error_6_1 = torch.tensor(error_6_1)
 
-    error_6_1 = torch.abs(untrained_loss_model - untrained_loss_red_model)
-    error_6_2 = torch.abs(trained_loss_model - trained_loss_red_model)
 
     print("Experiment 6.1.  Over {0} trials, Error = {1:.3e} +/- {2:.3e}".
         format(args.trials,torch.mean(error_6_1),torch.std(error_6_1)))
