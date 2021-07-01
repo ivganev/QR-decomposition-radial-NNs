@@ -354,13 +354,15 @@ def masks(reduced_dims, orig_dims):
 #################################
 
 def training_loop(n_epochs, learning_rate, model, params, x_train, y_train, verbose=True):
+    losses = []
     for epoch in range(1, n_epochs + 1):
         for p in params:
             if p.grad is not None: 
                 p.grad.zero_()
         
         y_pred = model(x_train) 
-        loss = loss_fn(y_pred, y_train)            
+        loss = loss_fn(y_pred, y_train)
+        losses.append(loss)
         loss.backward()
         
         with torch.no_grad(): 
@@ -371,7 +373,7 @@ def training_loop(n_epochs, learning_rate, model, params, x_train, y_train, verb
             if epoch ==1 or epoch % 500 == 0:
                 print('Epoch %d, Loss %f' % (epoch, float(loss)))
             
-    return model
+    return model, losses
 
 
 #################################
@@ -383,14 +385,15 @@ def training_loop_proj_GD(n_epochs, learning_rate, model, params, original_dimen
                           x_train, y_train, verbose=True):
     
     param_masks = masks(reduced_dimensions, original_dimensions)
-    
+    losses=[]
     for epoch in range(1, n_epochs + 1):
         for p in params:
             if p.grad is not None: 
                 p.grad.zero_()
         
         y_pred = model(x_train) 
-        loss = loss_fn(y_pred, y_train)            
+        loss = loss_fn(y_pred, y_train)
+        losses.append(loss)
         loss.backward()
         
         with torch.no_grad(): 
@@ -404,7 +407,7 @@ def training_loop_proj_GD(n_epochs, learning_rate, model, params, original_dimen
             if epoch ==1 or epoch % 500 == 0:
                 print('Epoch %d, Loss %f' % (epoch, float(loss)))
             
-    return model
+    return model, losses
 
 
 #################################
@@ -428,7 +431,8 @@ def training_loop_with_stop(n_epochs, learning_rate, model, params, \
                 p -= learning_rate * p.grad
                 
         if loss < stopping_value:
-            print('Epoch %d, Loss %f' % (epoch, float(loss)))
+            if verbose:
+                print('Epoch %d, Loss %f' % (epoch, float(loss)))
             return model
         
         if verbose:
