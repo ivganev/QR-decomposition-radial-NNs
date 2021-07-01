@@ -42,7 +42,7 @@ For training models, we have three different types of training loops:
 
 ## The file script-experiment-6-1-and-6-2.py
 
-In this experiment, we instantiate a radial neural network with weights W and show that projected gradient descent on the transformed network (with weights Q^{-1} W) matches usual gradient descent on the reduced network (with weights R). Specifically, the values of the loss function are the same in both training regimes, epoch by epoch. 
+In this experiment, we instantiate a radial neural network with weights W and show that projected gradient descent on the transformed network (with weights Q^{-1} W) matches usual gradient descent on the reduced network (with weights R). Specifically, the values of the loss function are the same in both training regimes, epoch by epoch.  We also check the neural functions of f_W and f_R match.
 
     python script-experiment-6-1-and-6-2.py
 
