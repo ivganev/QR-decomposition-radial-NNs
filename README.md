@@ -1,6 +1,6 @@
 # The QR Decomposition for radial neural networks
 
-This repository accompanies the paper "The QR decomposition for radial neural networks".
+This repository accompanies the paper "The QR decomposition for radial neural networks" (http://arxiv.org/abs/2107.02550).
 
 ## The file source.py
 
